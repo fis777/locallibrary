@@ -32,8 +32,13 @@ class Book(models.Model):
     # Genre class has already been defined so we can specify the object above.
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
+    def display_genre(self):
+        ''' Display genre in Admin'''
+        return ', '.join([ genre.name for genre in self.genre.all()[:3] ])
+    display_genre.short_description = 'Genre'
+
     def __str__(self):
-        """String for representing the Model object."""
+        """ String for representing the Model object."""
         return self.title
     
     
@@ -61,7 +66,7 @@ class BookInstance(models.Model):
 
     def __str__(self):
         """String for representing the Model object"""
-        return '%s (%s)' % (self.id,self.book.title)
+        return '%s (%s)' % (self.id, self.book.title)
 
 class Author(models.Model):
     """
