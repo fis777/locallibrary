@@ -1,8 +1,7 @@
 ''' Django views is here'''
 from django.shortcuts import render
+from django.views.generic import ListView
 from .models import Book, BookInstance, Author
-
-# Create your views here.
 
 def index(request):
     ''' Отображение главной страницы '''
@@ -16,3 +15,7 @@ def index(request):
                            'num_instances': num_instances,
                            'num_instances_available': num_instances_available,
                            'num_authors': num_authors})
+
+class BookListView(ListView):
+    '''Отображение списка книг'''
+    model = Book
