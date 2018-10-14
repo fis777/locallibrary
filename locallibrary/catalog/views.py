@@ -1,6 +1,6 @@
 ''' Django views is here'''
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Book, BookInstance, Author
 
 def index(request):
@@ -18,4 +18,9 @@ def index(request):
 
 class BookListView(ListView):
     '''Отображение списка книг'''
+    model = Book
+    paginate_by = 10
+
+class BookDetailView(DetailView):
+    ''' Отображение подробной информации о книге '''
     model = Book
