@@ -24,3 +24,11 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
     ''' Отображение подробной информации о книге '''
     model = Book
+
+class AuthorListView(ListView):
+    '''Отображение списка авторов'''
+    model = Author
+
+class AuthorDetailView(DetailView):
+    ''' Отображение подробной информации о авторе '''
+    model = Author
