@@ -1,6 +1,7 @@
 ''' Django views is here'''
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, BookInstance, Author
 
 def index(request):
@@ -21,7 +22,7 @@ def index(request):
                            'num_authors': num_authors,
                            'num_visits': num_visits})
 
-class BookListView(ListView):
+class BookListView(LoginRequiredMixin, ListView):
     '''Отображение списка книг'''
     model = Book
     paginate_by = 10
