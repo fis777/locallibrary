@@ -1,7 +1,7 @@
 ''' Django views is here'''
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Book, BookInstance, Author
 
 def index(request):
@@ -22,7 +22,7 @@ def index(request):
                            'num_authors': num_authors,
                            'num_visits': num_visits})
 
-class BookListView(LoginRequiredMixin, ListView):
+class BookListView(ListView):
     '''Отображение списка книг'''
     model = Book
     paginate_by = 10
@@ -38,3 +38,21 @@ class AuthorListView(ListView):
 class AuthorDetailView(DetailView):
     ''' Отображение подробной информации о авторе '''
     model = Author
+
+class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
+    '''Generic class based view listing book on loan current user'''
+    model = BookInstance
+    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class AllBorrowedBooksListView(PermissionRequiredMixin, ListView):
+    permission_required = "catalog.can_mark_returned"
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_loaned_books.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
