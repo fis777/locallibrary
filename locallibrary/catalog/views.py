@@ -1,11 +1,12 @@
 ''' Django views is here'''
 from datetime import date, timedelta
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .models import Book, BookInstance, Author
 from .forms import RenewBookForm
 
@@ -80,3 +81,18 @@ class AllBorrowedBooksListView(PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+
+class AuthorCreate(PermissionRequiredMixin, CreateView):
+    permission_required = "catalog.can_mark_returned"
+    model = Author
+    fields = '__all__'
+
+class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = "catalog.can_mark_returned"
+    model = Author
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
+class AuthorDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = "catalog.can_mark_returned"
+    model = Author
+    success_url = reverse_lazy('authors')

@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <P>Are you sure want to delete the author {{author}}?</P>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Yes">
+    </form>
+{% endblock content %}
