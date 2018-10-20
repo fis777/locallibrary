@@ -59,6 +59,7 @@ class BookDetailView(DetailView):
 class AuthorListView(ListView):
     '''Отображение списка авторов'''
     model = Author
+    paginate_by = 10
 
 class AuthorDetailView(DetailView):
     ''' Отображение подробной информации о авторе '''
