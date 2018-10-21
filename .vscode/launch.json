@@ -41,7 +41,7 @@
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
+            "program": "${workspaceFolder}/locallibrary/manage.py",
             "console": "integratedTerminal",
             "args": [
                 "runserver",
